@@ -18,7 +18,8 @@ classifier = Classifier("model/keras_model.h5", "model/labels.txt")
 offset = 20
 imgSize = 300
 counter = 0
-labels = ["on" , "off"]
+labels = ["20%" , "40%" , "60%" , "80%" , "100%"]
+
 while True:
     success, img = cap.read()
     imgOutput = img.copy()
@@ -39,9 +40,15 @@ while True:
             imgWhite[:, wGap:wCal + wGap] = imgResize
             prediction, index = classifier.getPrediction(imgWhite, draw=False)
             if index == 0:
-                ser.write(b'1')  # Send command '1' to Arduino
+                ser.write(b'0')
             elif index == 1:
-                ser.write(b'0')  # Send command '0' to Arduino
+                ser.write(b'1')
+            elif index == 2:
+                ser.write(b'2')
+            elif index == 3:
+                ser.write(b'3')
+            elif index == 4:
+                ser.write(b'4')
             print(prediction, index)
         else:
             k = imgSize / w
